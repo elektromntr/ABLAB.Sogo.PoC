@@ -1,0 +1,122 @@
+@using ABLAB.Sogo.PoC.Components.Layout
+@using ABLAB.Sogo.PoC.Shared.Dtos
+@using ABLAB.Sogo.PoC.Shared.Services
+
+@using Microsoft.AspNetCore.Antiforgery;
+@attribute [RequireAntiforgeryToken(required: false)]
+
+@rendermode InteractiveAuto
+
+<!-- Property Search Section Two -->
+<section class="property-search-section-two" style="background-image: url(images/background/banner-01.jpg);">
+    <div class="auto-container">
+        <div class="content-box">
+            <div class="title-box">
+                <h2>Discover a <span>Property</span> You'll love to live.</h2>
+                <h4>The best place to find your property</h4>
+            </div>
+            <div class="property-search-form style-two">
+                <form method="post" action="#">
+                    <div class="row no-gutters">
+                        <!-- Form Group -->
+                        <div class="form-group col-lg-2 col-md-6 col-sm-12">
+                            <select class="custom-select-box" tabindex="InvestmentId">
+                                @if (SearchService.Parameters != null)
+                                {
+                                    <option selected>Inwestycja</option>
+                                    foreach (var item in SearchService.Parameters.Investments)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Form Group max values -->
+                        <div class="form-group col-lg-2 col-md-6 col-sm-12">
+                            <select class="custom-select-box" @bind="MaxPrice">
+                                @if (SearchService.Parameters is not null 
+                                    && SearchService.Parameters.MinPrice is not null
+                                    && SearchService.Parameters.MaxPrice is not null)
+                                {
+                                    List<decimal> prices = new List<decimal>();
+                                    <option selected value="@SearchService.Parameters.MaxPrice">Maksymalna cena</option>
+                                    <option value="@SearchService.Parameters.MaxPrice">@SearchService.Parameters.MaxPrice</option>
+                                    decimal maxPrice = SearchService.Parameters.MaxPrice.Value;
+                                    while (maxPrice > SearchService.Parameters.MinPrice.Value)
+                                    {
+                                        maxPrice -= 100000;
+                                        prices.Add(maxPrice);
+                                    }
+                                    foreach (var item in prices)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Form Group min values -->
+                        <div class="form-group col-lg-2 col-md-6 col-sm-12">
+                            <select class="custom-select-box" @bind="MinPrice">
+                                @if (SearchService.Parameters is not null
+                                && SearchService.Parameters.MinPrice is not null
+                                && SearchService.Parameters.MaxPrice is not null)
+                                {
+                                    <option selected value="@SearchService.Parameters.MinPrice">Minimalna cena</option>
+                                    List<decimal> prices = new List<decimal>();
+                                    decimal dupa = SearchService.Parameters.MaxPrice.Value;
+                                    while (dupa > SearchService.Parameters.MinPrice.Value)
+                                    {
+                                        prices.Add(dupa);
+                                        dupa -= 100000;
+                                    }
+                                    foreach (var item in prices)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                    <option value="@SearchService.Parameters.MinPrice">@SearchService.Parameters.MinPrice</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Form Group -->
+                        <div class="form-group col-lg-2 col-md-6 col-sm-12">
+                            <button @onclick="GoSearchApartments" @*type="submit"*@ class="theme-btn btn-style-one">SZUKAJ</button>
+                            <AntiforgeryToken />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End Property Search Section Two -->
+
+@code {
+    [Inject]
+    public ApartmentsSearchService SearchService { get; set; } = default!;
+
+    [Parameter]
+    public List<ApartmentDto>? apartmentsSearch { get; set; }
+
+    int InvestmentId;
+    decimal MinPrice;
+    decimal MaxPrice;
+
+    private async Task GoSearchApartments()
+    {
+        SearchParameters searchParams = new SearchParameters
+        {
+            MinPrice = MinPrice,
+            MaxPrice = MaxPrice,
+            Investments = new List<InvestmentDto> { new() { Id = InvestmentId } }
+        };
+        await SearchService.SearchApartments(searchParams);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SearchService.GetSearchParams();
+    }
+}

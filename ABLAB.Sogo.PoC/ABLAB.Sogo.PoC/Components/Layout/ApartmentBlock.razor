@@ -1,0 +1,50 @@
+﻿@using ABLAB.Sogo.PoC.Shared.Dtos
+@using ABLAB.Sogo.PoC.Shared.Services
+@rendermode InteractiveAuto
+
+<!-- Property Block -->
+@if (Apartment is not null)
+{
+    var imageUrl = $"https://osiedla-sogo.pl/Rzuty/{Apartment.Symbol}.jpg";
+    <div class="property-block all mix sale col-lg-4 col-md-6 col-sm-12">
+        <div class="inner-box">
+            <div class="image-box">
+                <figure class="image"><img src=@imageUrl alt=""></figure>
+                <span class="for">@Apartment.Status.Name</span>
+                <span class="featured">FEATURED</span>
+                <ul class="info clearfix">
+                    <li><i class="la la-calendar-minus-o"></i>@Apartment.FinaleDate.ToString("yyyy-MM-dd")</li>
+                </ul>
+            </div>
+            <div class="lower-content">
+                <ul class="tags">
+                    <li><a href="property-detail.html">Apartment</a>,</li>
+                    <li><a href="property-detail.html">Modern Villa</a></li>
+                </ul>
+                <div class="thumb"><img src="images/resource/thumb-3.jpg" alt=""></div>
+                <h3><a href="property-detail.html">@Apartment.Symbol</a></h3>
+                <div class="lucation"><i class="la la-map-marker"></i> @Apartment.Investment.Name</div>
+                <ul class="property-info clearfix">
+                    <li><i class="flaticon-money"></i> @Apartment.Price zł</li>
+                    <li><i class="flaticon-bed"></i> Pokoje: @Apartment.Rooms</li>
+                    <li><i class="flaticon-car"></i> Miejsce postojowe</li>
+                    <li><i class="flaticon-bathtub"></i> Ogród</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ApartmentDto? Apartment { get; set; }
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     var client = new HttpClient();
+    //     //client.BaseAddress = new Uri("https://ablab.aspnet.pl/api/2/popular");
+    //     client.BaseAddress = new Uri("http://localhost:56861/api/2/popular");
+    //     var apartmentsRequest = await client.GetAsync("?id=0&count=8");
+    //     apartments = await apartmentsRequest.Content.ReadFromJsonAsync<List<ApartmentDto>>();
+    // }
+}

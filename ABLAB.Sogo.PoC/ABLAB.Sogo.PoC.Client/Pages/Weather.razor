@@ -1,0 +1,63 @@
+﻿@page "/weather"
+@using ABLAB.Sogo.PoC.Shared.Dtos
+@using Newtonsoft.Json
+@rendermode InteractiveAuto
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Weather</h1>
+
+<p>This component demonstrates showing data.</p>
+
+@if (apartments == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var apartment in apartments)
+            {
+                <tr>
+                    <td>@apartment.Id</td>
+                    <td>@apartment.Investment</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private WeatherForecast[]? forecasts;
+    private IList<ApartmentDto>? apartments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulate asynchronous loading to demonstrate streaming6 rendering
+        await Task.Delay(500);
+
+        var startDate = DateOnly.FromDateTime(DateTime.Now);
+        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
+        var client = new HttpClient();
+        client.BaseAddress = new Uri("https://osiedla-sogo.pl/api/apartments/");
+        var apartmentsRequest = await client.GetAsync("1");
+        apartments = JsonConvert.DeserializeObject<List<ApartmentDto>>(await apartmentsRequest.Content.ReadAsStringAsync());
+    }
+
+    private class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+        public int TemperatureC { get; set; }
+        public string? Summary { get; set; }
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+}

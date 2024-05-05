@@ -1,0 +1,64 @@
+﻿@using ABLAB.Sogo.PoC.Shared.Dtos
+@rendermode InteractiveAuto
+
+<!-- Property Section Two -->
+<section class="property-section-two">
+    <div class="auto-container">
+        <div class="sec-title">
+            <span class="title">MIESZKANIE DLA CIEBIE</span>
+            <h2>POPULARNE MIESZKANIA</h2>
+        </div>
+
+        <div class="property-carousel owl-carousel owl-theme">
+            <!-- New Property -->
+            @if (apartments is not null)
+            {
+                foreach (var ap in apartments)
+                {
+                    var imageUrl = $"https://osiedla-sogo.pl/Rzuty/{ap.Symbol}.jpg";
+                    <div class="new-property">
+                        <div class="row">
+                        <!-- Content Column -->
+                        <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                            <div class="inner-column">
+                                <span class="status">@ap.Status.Name</span> 
+                                <h3><a href="property-detail.html">@ap.Investment.Name — @ap.Symbol</a></h3>
+                                <div class="start-from"><span>JUŻ ZA</span>@ap.Price ZŁ</div>
+                                <div class="lucation"><i class="la la-map-marker"></i>@ap.Investment.Name</div>
+
+                                <div class="text">@ap.Headlite</div>
+
+                                <ul class="property-info clearfix">
+                                    <li><i class="flaticon-dimension"></i> @ap.Area m<sup>2</sup></li>
+                                    <li><i class="flaticon-bed"></i> @ap.Rooms Pokoje</li>
+                                    <li><i class="flaticon-car"></i> Miejsce postojowe</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Image column -->
+                        <div class="image-column col-lg-6 col-md-12 col-sm-12">
+                            <div class="inner-column">
+                                    <figure class="image"><img src=@imageUrl alt=""></figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+<!--End Property Section Two -->
+@code {
+    private IList<ApartmentDto>? apartments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var client = new HttpClient();
+        //client.BaseAddress = new Uri("https://ablab.aspnet.pl/api/2/popular");
+        client.BaseAddress = new Uri("http://localhost:56861/api/2/popular");
+        var apartmentsRequest = await client.GetAsync("?id=0&count=4");
+        apartments = await apartmentsRequest.Content.ReadFromJsonAsync<List<ApartmentDto>>();
+    }
+}

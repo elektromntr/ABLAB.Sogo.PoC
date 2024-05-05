@@ -1,0 +1,771 @@
+﻿@page "/main-search-page"
+@using ABLAB.Sogo.PoC.Components.Layout
+@using ABLAB.Sogo.PoC.Shared.Dtos
+@using ABLAB.Sogo.PoC.Shared.Services
+@rendermode InteractiveAuto
+
+
+
+<body>
+ <!-- Preloader Start -->
+ <div id="preloader-active">
+  <div class="preloader d-flex align-items-center justify-content-center">
+    <div class="preloader-inner position-relative">
+      <div class="preloader-circle"></div>
+    </div>
+  </div>
+</div>
+<!-- Preloader End -->
+<button id="back-to-top-btn"><i class="la la-angle-double-up"></i></button>
+<div class="page-wrapper">
+ 
+  @* <NavMenu/> *@
+<SearchComp />
+@* <!-- Property Search Section Two -->
+<section class="property-search-section-two" style="background-image: url(images/background/banner-01.jpg);">
+  <div class="auto-container">
+   <div class="content-box">
+    <div class="title-box">
+     <h2>Discover a <span>Property</span> You'll love to live.</h2>
+     <h4>The best place to find your property</h4>
+   </div>
+   <div class="property-search-form style-two">
+    <form method="post" action="#">
+      <div class="row no-gutters">
+        <!-- Form Group -->
+        <div class="form-group col-lg-2 col-md-6 col-sm-12">
+          <select class="custom-select-box">
+            <option>Location</option>
+            <option>New York</option>
+            <option>Los Angeles</option>
+            <option>Chicago</option>
+            <option>Houston</option>
+          </select>
+        </div>
+
+        <!-- Form Group -->
+        <div class="form-group col-lg-2 col-md-6 col-sm-12">
+          <select class="custom-select-box">
+            <option>Property Type</option>
+            <option>Residential</option>
+            <option>Commercial</option>
+            <option>Industrial</option>
+            <option>Apartments</option>
+          </select>
+        </div>
+
+        <!-- Form Group -->
+        <div class="form-group col-lg-2 col-md-6 col-sm-12">
+          <select class="custom-select-box">
+            <option>Property Status</option>
+            <option>For Rent</option>
+            <option>For Sale</option>
+          </select>
+        </div>
+
+
+        <!-- Form Group -->
+        <div class="form-group col-lg-2 col-md-6 col-sm-12">
+          <select class="custom-select-box">
+            <option>Any Bedrooms</option>
+            <option>01 Bedroom</option>
+            <option>02 Bedrooms</option>
+            <option>03 Bedrooms</option>
+            <option>04 Bedrooms</option>
+            <option>05 Bedrooms</option>
+          </select>
+        </div>
+
+        <!-- Form Group -->
+        <div class="form-group col-lg-2 col-md-6 col-sm-12">
+          <select class="custom-select-box">
+            <option>Any Bathrooms</option>
+            <option>01 Bathroom</option>
+            <option>02 Bathrooms</option>
+            <option>03 Bathrooms</option>
+            <option>04 Bathrooms</option>
+            <option>05 Bathrooms</option>
+          </select>
+        </div>
+
+        <!-- Form Group -->
+        <div class="form-group col-lg-2 col-md-6 col-sm-12">
+          <button type="submit" class="theme-btn btn-style-one">SZUKAJ</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+</section>
+<!--End Property Search Section Two -->   *@
+
+<!-- Property Section Two -->
+<PopularApartments/>
+<!--End Property Section Two -->
+
+<!-- Property Filter Section -->
+<section class="property-filter-section">
+  <div class="auto-container">
+    <!--MixitUp Galery-->
+    <div class="mixitup-gallery">
+      <div class="upper-box clearfix">
+        <div class="sec-title">
+          <span class="title">FIND YOUR HOUSE IN YOUR CITY</span>
+          <h2>PROPERTY TYPES</h2>
+        </div>
+
+        <!--Filter-->
+        <div class="filters">
+          <ul class="filter-tabs filter-btns clearfix">
+            <li class="active filter" data-role="button" data-filter="all">All</li>
+            <li class="filter" data-role="button" data-filter=".sale">For Sale</li>
+            <li class="filter" data-role="button" data-filter=".rent">For Rent</li>
+          </ul>                                    
+        </div>
+      </div>
+
+      <div class="filter-list row">
+          @if (apartmentsSearch is not null && apartmentsSearch.Count > 0)
+          {
+            foreach(var ap in apartmentsSearch)
+              {
+                    <ApartmentBlock Apartment=ap />
+              }
+          }
+        <!-- Property Block -->
+        <div class="property-block all mix sale col-lg-4 col-md-6 col-sm-12">
+          <div class="inner-box">
+            <div class="image-box">
+              <figure class="image"><img src="images/resource/property-1.jpg" alt=""></figure>
+              <span class="for">FOR SALE</span>
+              <span class="featured">FEATURED</span>
+              <ul class="info clearfix">
+                <li><i class="la la-calendar-minus-o"></i>2 Years Ago</li>
+              </ul>
+            </div>
+            <div class="lower-content">
+              <ul class="tags">
+                <li><a href="property-detail.html">Apartment</a>,</li>
+                <li><a href="property-detail.html">Modern Villa</a></li>
+              </ul>
+              <div class="thumb"><img src="images/resource/thumb-3.jpg" alt=""></div>
+              <h3><a href="property-detail.html">Modern Apartment in City Center</a></h3>
+              <div class="lucation"><i class="la la-map-marker"></i> 121, King St, VIC 3000, New York, United States</div>
+              <ul class="property-info clearfix">
+                <li><i class="flaticon-money"></i>$ 1,51,000</li>
+                <li><i class="flaticon-bed"></i> 4 Bedrooms</li>
+                <li><i class="flaticon-car"></i> 2 Garage</li>
+                <li><i class="flaticon-bathtub"></i> 3 Bathroom</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Property Block -->
+        <div class="property-block all mix rent col-lg-4 col-md-6 col-sm-12">
+          <div class="inner-box">
+            <div class="image-box">
+              <figure class="image"><img src="images/resource/property-4.jpg" alt=""></figure>
+              <span class="for">FOR RENT</span>
+
+
+              <ul class="info clearfix">
+                <li><i class="la la-calendar-minus-o"></i>2 Years Ago</li>
+              </ul>
+            </div>
+            <div class="lower-content">
+              <ul class="tags">
+                <li><a href="property-detail.html">Family House</a>,</li>
+                <li><a href="property-detail.html">Condo</a></li>
+              </ul>
+              <div class="thumb"><img src="images/resource/thumb-8.jpg" alt=""></div>
+              <h3><a href="property-detail.html">Royal Town House With Pool</a></h3>
+              <div class="lucation"><i class="la la-map-marker"></i> 121, King St, VIC 3000, New York, United States</div>
+              <ul class="property-info clearfix">
+                <li><i class="flaticon-money"></i> $ 2200 / Mo</li>
+                <li><i class="flaticon-bed"></i> 4 Bedrooms</li>
+                <li><i class="flaticon-car"></i> 2 Garage</li>
+                <li><i class="flaticon-bathtub"></i> 3 Bathroom</li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Property Block -->
+        <div class="property-block all mix sale col-lg-4 col-md-6 col-sm-12">
+          <div class="inner-box">
+            <div class="image-box">
+              <figure class="image"><img src="images/resource/property-5.jpg" alt=""></figure>
+              <span class="for">FOR SALE</span>
+              <span class="featured">FEATURED</span>
+
+              <ul class="info clearfix">
+                <li><i class="la la-calendar-minus-o"></i>2 Years Ago</li>
+              </ul>
+            </div>
+            <div class="lower-content">
+              <ul class="tags">
+                <li><a href="property-detail.html">Apartment</a>,</li>
+                <li><a href="property-detail.html">Town House</a>,</li>
+              </ul>
+              <div class="thumb"><img src="images/resource/thumb-6.png" alt=""></div>
+              <h3><a href="property-detail.html">Apartment Morden 1243, W No...</a></h3>
+              <div class="lucation"><i class="la la-map-marker"></i> 121, King St, VIC 3000, New York, United States</div>
+              <ul class="property-info clearfix">
+                <li><i class="flaticon-money"></i> $ 57,000</li>
+                <li><i class="flaticon-bed"></i> 4 Bedrooms</li>
+                <li><i class="flaticon-car"></i> 2 Garage</li>
+                <li><i class="flaticon-bathtub"></i> 3 Bathroom</li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Load More -->
+      <div class="load-more-btn text-center">
+        <a href="property-grid-view.html" class="theme-btn btn-style-two">Load More</a>
+      </div>
+    </div>
+  </div>
+</section>
+<!--End Property Filter Section -->
+
+<!-- Fun Fact -->
+<section class="fun-facts-section" style="background-image:url(images/background/10.jpg);">
+  <div class="auto-container">
+
+    <div class="fun-facts">
+     <div class="row clearfix">
+       <!--Column-->
+       <div class="column count-box col-lg-3 col-md-6 col-sm-12">
+        <div class="content">
+          <div class="icon-box"><span class="la la-home"></span></div>
+          <div class="count-outer count-box">
+            <span class="count-text" data-speed="3000" data-stop="300">0 </span>
+          </div>
+          <div class="counter-title">Sold Houses</div>
+        </div>
+      </div>
+
+
+      <!--Column-->
+      <div class="column count-box col-lg-3 col-md-6 col-sm-12">
+        <div class="content">
+          <div class="icon-box"><span class="la la-th-list"></span></div>
+          <div class="count-outer count-box">
+            <span class="count-text" data-speed="2000" data-stop="470">0 </span>
+          </div>
+          <div class="counter-title">Daily Listings</div>
+        </div>
+      </div>
+
+
+      <!--Column-->
+      <div class="column count-box col-lg-3 col-md-6 col-sm-12">
+        <div class="content">
+          <div class="icon-box"><span class="la la-user-secret"></span></div>
+          <div class="count-outer count-box">
+            <span class="count-text" data-speed="2000" data-stop="250">0 </span>
+          </div>
+          <div class="counter-title">Expert Agents</div>
+        </div>
+      </div>
+
+      <!--Column-->
+      <div class="column count-box col-lg-3 col-md-6 col-sm-12">
+        <div class="content">
+          <div class="icon-box"><span class="la la-trophy"></span></div>
+          <div class="count-outer count-box">
+            <span class="count-text" data-speed="3000" data-stop="200">0 </span>
+          </div>
+          <div class="counter-title">Won Awards</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- End Fun Fact -->
+
+
+
+<!-- Agents Section -->
+<div class="agents-section">
+  <div class="auto-container">
+    <div class="sec-title">
+      <span class="title">MEET OUR PROFESSIONAL AGENTS</span>
+      <h2>MEET OUR AGENTS</h2>
+    </div>
+
+    <div class="agents-carousel owl-carousel owl-theme">
+      <!-- Agent Block -->
+      <div class="agent-block">
+        <div class="inner-box">
+          <div class="image-box">
+            <figure class="image"><a href="agent-detail.html"><img src="images/resource/team-01.jpg" alt=""></a></figure>
+          </div>
+          <div class="info-box">
+            <h4 class="name"><a href="agent-detail.html">JOHN DOE</a></h4>
+            <span class="designation">Real Estate Agent</span>
+            <ul class="social-links">
+              <li><a href="#"><i class="la la-facebook-f"></i><span>Facebook</span></a></li>
+              <li><a href="#"><i class="la la-twitter"></i><span>Twitter</span></a></li>
+              <li><a href="#"><i class="la la-google-plus"><span>google+</span></i></a></li>
+              <li><a href="#"><i class="la la-dribbble"></i><span>Dribbble</span></a></li>
+              <li><a href="#"><i class="la la-pinterest"></i><span>Pinterest</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Block -->
+      <div class="agent-block">
+        <div class="inner-box">
+          <div class="image-box">
+            <figure class="image"><a href="agent-detail.html"><img src="images/resource/team-02.jpg" alt=""></a></figure>
+          </div>
+          <div class="info-box">
+            <h4 class="name"><a href="agent-detail.html">ALVIS MILAN</a></h4>
+            <span class="designation">Real Estate Agent</span>
+            <ul class="social-links">
+              <li><a href="#"><i class="la la-facebook-f"></i><span>Facebook</span></a></li>
+              <li><a href="#"><i class="la la-twitter"></i><span>Twitter</span></a></li>
+              <li><a href="#"><i class="la la-google-plus"><span>google+</span></i></a></li>
+              <li><a href="#"><i class="la la-dribbble"></i><span>Dribbble</span></a></li>
+              <li><a href="#"><i class="la la-pinterest"></i><span>Pinterest</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Block -->
+      <div class="agent-block">
+        <div class="inner-box">
+          <div class="image-box">
+            <figure class="image"><a href="agent-detail.html"><img src="images/resource/team-03.jpg" alt=""></a></figure>
+          </div>
+          <div class="info-box">
+            <h4 class="name"><a href="agent-detail.html">JEAMS ADAM</a></h4>
+            <span class="designation">Real Estate Agent</span>
+            <ul class="social-links">
+              <li><a href="#"><i class="la la-facebook-f"></i><span>Facebook</span></a></li>
+              <li><a href="#"><i class="la la-twitter"></i><span>Twitter</span></a></li>
+              <li><a href="#"><i class="la la-google-plus"><span>google+</span></i></a></li>
+              <li><a href="#"><i class="la la-dribbble"></i><span>Dribbble</span></a></li>
+              <li><a href="#"><i class="la la-pinterest"></i><span>Pinterest</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Block -->
+      <div class="agent-block">
+        <div class="inner-box">
+          <div class="image-box">
+            <figure class="image"><a href="agent-detail.html"><img src="images/resource/team-01.jpg" alt=""></a></figure>
+          </div>
+          <div class="info-box">
+            <h4 class="name"><a href="agent-detail.html">HUGO SMITH</a></h4>
+            <span class="designation">Real Estate Agent</span>
+            <ul class="social-links">
+              <li><a href="#"><i class="la la-facebook-f"></i><span>Facebook</span></a></li>
+              <li><a href="#"><i class="la la-twitter"></i><span>Twitter</span></a></li>
+              <li><a href="#"><i class="la la-google-plus"><span>google+</span></i></a></li>
+              <li><a href="#"><i class="la la-dribbble"></i><span>Dribbble</span></a></li>
+              <li><a href="#"><i class="la la-pinterest"></i><span>Pinterest</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Block -->
+      <div class="agent-block">
+        <div class="inner-box">
+          <div class="image-box">
+            <figure class="image"><a href="agent-detail.html"><img src="images/resource/team-02.jpg" alt=""></a></figure>
+          </div>
+          <div class="info-box">
+            <h4 class="name"><a href="agent-detail.html">JOHN DOE</a></h4>
+            <span class="designation">Real Estate Agent</span>
+            <ul class="social-links">
+              <li><a href="#"><i class="la la-facebook-f"></i><span>Facebook</span></a></li>
+              <li><a href="#"><i class="la la-twitter"></i><span>Twitter</span></a></li>
+              <li><a href="#"><i class="la la-google-plus"><span>google+</span></i></a></li>
+              <li><a href="#"><i class="la la-dribbble"></i><span>Dribbble</span></a></li>
+              <li><a href="#"><i class="la la-pinterest"></i><span>Pinterest</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Block -->
+      <div class="agent-block">
+        <div class="inner-box">
+          <div class="image-box">
+            <figure class="image"><a href="agent-detail.html"><img src="images/resource/team-03.jpg" alt=""></a></figure>
+          </div>
+          <div class="info-box">
+            <h4 class="name"><a href="agent-detail.html">ALVIS MILAN</a></h4>
+            <span class="designation">Real Estate Agent</span>
+            <ul class="social-links">
+              <li><a href="#"><i class="la la-facebook-f"></i><span>Facebook</span></a></li>
+              <li><a href="#"><i class="la la-twitter"></i><span>Twitter</span></a></li>
+              <li><a href="#"><i class="la la-google-plus"><span>google+</span></i></a></li>
+              <li><a href="#"><i class="la la-dribbble"></i><span>Dribbble</span></a></li>
+              <li><a href="#"><i class="la la-pinterest"></i><span>Pinterest</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Agents Section -->
+
+
+<!-- Process Section -->
+<section class="process-section" style="background-image: url(images/background/9.jpg);">
+  <div class="auto-container">
+    <div class="sec-title light">
+      <span class="title">FIND YOUR HOUSE IN YOUR CITY</span>
+      <h2>WORK PROCESS</h2>
+    </div>
+
+    <div class="row">
+      <!-- Process Block -->
+      <div class="process-block col-lg-3 col-md-6 col-sm-12">
+        <div class="inner-box">
+          <div class="icon-box"><span class="la la-user-secret"></span></div>
+          <h4><a href="about.html">Meet Our Agent</a></h4>
+          <div class="text">You Meet our agent and decuse your property Demand</div>
+        </div>
+      </div>
+
+      <!-- Process Block -->
+      <div class="process-block col-lg-3 col-md-6 col-sm-12">
+        <div class="inner-box">
+          <div class="icon-box"><span class="la la-building-o"></span></div>
+          <h4><a href="about.html">Choose Location</a></h4>
+          <div class="text">You Meet our agent and decuse your property Demand</div>
+        </div>
+      </div>
+
+      <!-- Process Block -->
+      <div class="process-block col-lg-3 col-md-6 col-sm-12">
+        <div class="inner-box">
+          <div class="icon-box"><span class="la la-map-marker"></span></div>
+          <h4><a href="about.html">Select Your Property</a></h4>
+          <div class="text">You Meet our agent and decuse your property Demand</div>
+        </div>
+      </div>
+
+      <!-- Process Block -->
+      <div class="process-block col-lg-3 col-md-6 col-sm-12">
+        <div class="inner-box">
+          <div class="icon-box"><span class="la la-file-text"></span></div>
+          <h4><a href="about.html">Confirmation</a></h4>
+          <div class="text">You Meet our agent and decuse your property Demand</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>    
+<!--End Process Section -->
+<!-- News Section -->
+<section class="news-section">
+  <div class="auto-container">
+    <div class="sec-title">
+      <span class="title">ALL ABOUT LATEST Find Home UPDATES</span>
+      <h2>NEWS & STORIES</h2>
+    </div>
+
+    <div class="row">
+      <!-- News Block -->
+      <div class="news-block col-lg-4 col-md-6 col-sm-12">
+        <div class="inner-box">
+          <div class="image-box">
+            <figure class="image"><a href="blog-detail.html"><img src="images/resource/news-1.jpg" alt=""></a></figure>
+          </div>
+          <div class="lower-content">
+           <ul class="info">
+            <li><i class="la la-user"></i> By <span>Admin</span></li>
+            <li><i class="la la-calendar"></i> Feb 20, 2020</li>
+            <li><i class="la la-comments"></i> 8 Comments</li>
+          </ul>
+          <h3><a href="blog-detail.html">Things to Know About Selling Your home</a></h3>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- News Block -->
+    <div class="news-block col-lg-4 col-md-6 col-sm-12">
+      <div class="inner-box">
+        <div class="image-box">
+          <figure class="image"><a href="blog-detail.html"><img src="images/resource/news-2.jpg" alt=""></a></figure>
+
+        </div>
+        <div class="lower-content">
+          <ul class="info">
+           <li><i class="la la-user"></i> By <span>Admin</span></li>
+           <li><i class="la la-calendar"></i> Feb 20, 2020</li>
+           <li><i class="la la-comments"></i> 8 Comments</li>
+         </ul>
+         <h3><a href="blog-detail.html">Things to Know About Selling Your home</a></h3>
+
+       </div>
+     </div>
+   </div>
+
+   <!-- News Block -->
+   <div class="news-block col-lg-4 col-md-6 col-sm-12">
+    <div class="inner-box">
+      <div class="image-box">
+        <figure class="image"><a href="blog-detail.html"><img src="images/resource/news-3.jpg" alt=""></a></figure>
+        <!--  <div class="icon-box"><span class="icon la la-play"></span></div> -->
+      </div>
+      <div class="lower-content">
+       <ul class="info">
+         <li><i class="la la-user"></i> By <span>Admin</span></li>
+         <li><i class="la la-calendar"></i> Feb 20, 2020</li>
+         <li><i class="la la-comments"></i> 8 Comments</li>
+       </ul>
+       <h3><a href="blog-detail.html">Things to Know About Selling Your home</a></h3>
+
+     </div>
+   </div>
+ </div>
+</div>
+</div>
+</section>
+<!--End News Section -->
+
+<!--Talk Section-->
+<section class="talk-section" style="background-image: url(images/background/banner-02.jpg);">
+  <div class="auto-container">
+    <div class="row clearfix">
+      <!--Content Column-->
+      <div class="content-column col-lg-8 col-md-12 col-sm-12">
+        <div class="inner-column">
+          <div class="icon-box">
+            <span class="icon flaticon-home"></span>
+          </div>
+          <h3>Let’s talk about our new properies.</h3>
+          <div class="text">Lorem ipsum dolor sit amet edit, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</div>
+        </div>
+      </div>
+      <!--Button Column-->
+      <div class="button-column col-lg-4 col-md-12 col-sm-12">
+        <div class="inner-column">
+          <a href="contact.html" class="theme-btn btn-style-three"><span class="txt">Contact Us</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--End Talk Section-->
+
+
+<!-- Main Footer -->
+<footer class="main-footer" style="background-image: url(images/background/10.jpg);">
+  <div class="auto-container">
+    <div class="upper-box">
+      <div class="row">
+        <!-- Upper column -->
+        <div class="upper-column col-lg-3 col-md-12 col-sm-12">
+          <div class="footer-logo">
+            <figure class="image"><a href="index.html"><img src="images/logo-2.png" alt=""></a></figure>
+          </div>
+        </div>
+
+        <!-- Upper column -->
+        <div class="upper-column col-lg-6 col-md-12 col-sm-12">
+          <div class="subscribe-form">
+            <form method="post" action="#">
+              <div class="form-group">
+                <input type="email" name="email" value="" placeholder="Enter Your Email" required="">
+                <button type="submit" class="theme-btn btn-style-four">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Upper column -->
+        <div class="upper-column col-lg-3 col-md-12 col-sm-12">
+          <div class="social-links">
+            <ul class="social-icon-two">
+              <li><a href="#"><i class="la la-instagram"></i></a></li>
+              <li><a href="#"><i class="la la-twitter"></i></a></li>
+              <li><a href="#"><i class="la la-google-plus"></i></a></li>
+              <li><a href="#"><i class="la la-github"></i></a></li>
+              <li><a href="#"><i class="la la-pinterest"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Widgets Section-->
+    <div class="widgets-section">
+      <div class="row">
+        <!--Big Column-->
+        <div class="big-column col-xl-6 col-lg-12 col-md-12 col-sm-12">
+          <div class="row">
+            <!--Footer Column-->
+            <div class="footer-column col-lg-6 col-md-6 col-sm-12">
+              <div class="footer-widget">
+                <h2 class="widget-title">About Us</h2>
+                <p> Lorem ipsum dolor sit amet, consectetuer a the adipiscing elit. Aenean commodo ligulai dolor. Aenean massa Lorem ipsum dolor sit amet, consectetuer a the adipiscing elit. Aenean commodo ligulai dolor.</p>
+              </div>
+            </div>
+
+            <!--Footer Column-->
+            <div class="footer-column col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <div class="footer-widget links-widget">
+                <h2 class="widget-title">Services</h2>
+                <div class="widget-content">
+                  <ul class="list clearfix">
+                    <li><a href="property-grid-view.html">Browse All Places</a></li>
+                    <li><a href="property-grid-view.html">Browse all Categories</a></li>
+                    <li><a href="faq.html">FAQ & Support</a></li>
+                    <li><a href="#">Terms of use</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!--Big Column-->
+        <div class="big-column col-xl-6 col-lg-12 col-md-12 col-sm-12">
+          <div class="row clearfix">
+            <div class="footer-column col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <!--Footer Column-->
+              <div class="footer-widget popular-posts">
+                <h2 class="widget-title">Popular Posts</h2>
+                <!--Footer Column-->
+                <div class="widget-content">
+                  <div class="post">
+                    <div class="thumb"><a href="blog-detail.html"><img src="images/resource/post-thumb-1.jpg" alt=""></a></div>
+                    <h4><a href="blog-detail.html">Modern Design Building </a></h4>
+                    <span class="date">1 March, 2020</span>
+                  </div>
+
+                  <div class="post">
+                    <div class="thumb"><a href="blog-detail.html"><img src="images/resource/post-thumb-2.jpg" alt=""></a></div>
+                    <h4><a href="blog-detail.html">Real Estate Expo 2020</a></h4>
+                    <span class="date">10 March, 2020</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--Footer Column-->
+            <div class="footer-column col-lg-6 col-md-6 col-sm-12">
+              <div class="footer-widget contact-widget">
+                <h2 class="widget-title">Get in Touch</h2>
+                <div class="widget-content">
+                  <ul class="contact-list">
+                    <li><span class="la la-map-marker"></span> 121, King St, VIC 3000, <br>NY. United States Of America.</li>
+                    <li><span class="la la-phone"></span>(001) 123456 - (002) 1234567</li>
+                    <li><span class="la la-envelope"></span><a href="mailto:info@example.com">info@example.com</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Footer Bottom-->
+  <div class="footer-bottom">
+    <div class="auto-container">
+
+
+      <div class="inner-container clearfix">
+       <div class="copyright-text">
+        <p>Copyright ©      <script>
+          var d=new Date();
+          document.write(d.getFullYear());
+        </script> Made by Fairy Meadows Themes.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</footer>
+<!-- End Main Footer -->
+</div>
+<!--End pagewrapper-->
+<!-- Color Palate / Color Switcher -->
+<div class="color-palate">
+  <div class="color-trigger">
+    <i class="la la-cog"></i>
+  </div>
+  <div class="color-palate-head">
+    <h6>Choose Your Color</h6>
+  </div>
+  <div class="various-color clearfix">
+    <div class="colors-list">
+      <span class="palate default-color active" data-theme-file="css/color-themes/default-theme.css"></span>
+      <span class="palate green-color" data-theme-file="css/color-themes/green-theme.css"></span>
+      <span class="palate blue-color" data-theme-file="css/color-themes/blue-theme.css"></span>
+      <span class="palate orange-color" data-theme-file="css/color-themes/orange-theme.css"></span>
+      <span class="palate purple-color" data-theme-file="css/color-themes/purple-theme.css"></span>
+      <span class="palate teal-color" data-theme-file="css/color-themes/teal-theme.css"></span>
+      <span class="palate brown-color" data-theme-file="css/color-themes/brown-theme.css"></span>
+      <span class="palate redd-color" data-theme-file="css/color-themes/redd-color.css"></span>
+    </div>
+    <div class="palate-foo">
+      <span>This color picker is used only for demonstration purposes.</span>
+    </div>
+  </div>
+  
+</div><!-- End Color Switcher -->
+<script src="js/jquery.js"></script> 
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.fancybox.js"></script>
+<script src="js/owl.js"></script>
+<script src="js/wow.js"></script>
+<script src="js/isotope.js"></script>
+<script src="js/mixitup.js"></script>
+<script src="js/appear.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/script.js"></script>
+<script src="js/scroll.js"></script>
+<!--Google Map APi Key-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjirg3UoMD5oUiFuZt3P9sErZD-2Rxc68"></script>
+<script src="js/map-script.js"></script>
+<!--End Google Map APi-->
+<!-- Color Setting -->
+<script src="js/color-settings.js"></script>
+</body>
+
+@code {
+    [Inject]
+    public ApartmentsSearchService SearchService { get; set; }
+
+    [Parameter]
+    public List<ApartmentDto> apartmentsSearch { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SearchService.SearchApartments(new SearchParameters
+            {
+                MinPrice = 0
+            });
+
+        apartmentsSearch = SearchService.Apartments.Take(8).ToList();
+    }
+}
